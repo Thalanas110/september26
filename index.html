@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poetry Sanctuary</title>
+    <title>September 26 Offensive</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -13,15 +13,27 @@
     <!-- Background with the provided image -->
     <div class="app-background"></div>
     
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+    </button>
+    
+    <!-- Sidebar Overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <!-- Main App Container -->
     <div class="app-container">
         <!-- Sidebar Navigation -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
                     <div class="logo-icon">📖</div>
                     <h1 class="logo-title">Poetry<br>Sanctuary</h1>
                 </div>
+                <!-- Mobile close button -->
+                <button class="mobile-close-btn" id="mobileCloseBtn" aria-label="Close menu">×</button>
             </div>
             
             <nav class="sidebar-nav">
@@ -71,7 +83,7 @@
                                 type="text" 
                                 id="searchInput" 
                                 class="search-input" 
-                                placeholder="Search by title, author, or content..."
+                                placeholder="Search poems..."
                             >
                             <span class="search-icon">🔍</span>
                         </div>

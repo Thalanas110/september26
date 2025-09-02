@@ -526,6 +526,97 @@ body {
     font-weight: bold;
 }
 
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: var(--spacing-lg);
+    left: var(--spacing-lg);
+    z-index: 101;
+    background: rgba(30, 64, 175, 0.9);
+    border: none;
+    border-radius: var(--border-radius);
+    width: 48px;
+    height: 48px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.mobile-menu-toggle:hover {
+    background: rgba(30, 64, 175, 1);
+    transform: scale(1.05);
+}
+
+.hamburger-line {
+    width: 20px;
+    height: 2px;
+    background: white;
+    border-radius: 1px;
+    transition: all var(--transition-fast);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-menu-toggle.active .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    backdrop-filter: blur(2px);
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-overlay.active {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+/* Mobile Close Button */
+.mobile-close-btn {
+    position: absolute;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    line-height: 1;
+    display: none;
+    z-index: 102;
+}
+
+.mobile-close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+}
+
 /* Animations */
 @keyframes slideInUp {
     from {
@@ -553,38 +644,93 @@ body {
 /* Responsive Design */
 @media (max-width: 1200px) {
     .poems-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: var(--spacing-lg);
     }
     
     .poem-card--expanded {
         grid-column: span 1;
     }
+    
+    .page-title {
+        font-size: 2.25rem;
+    }
 }
 
 @media (max-width: 768px) {
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform var(--transition-normal);
+    /* Show mobile controls */
+    .mobile-menu-toggle {
+        display: flex !important;
     }
     
+    .mobile-close-btn {
+        display: block !important;
+    }
+    
+    /* Sidebar adjustments */
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 320px !important;
+        height: 100vh !important;
+        z-index: 100 !important;
+        transform: translateX(-100%) !important;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0) !important;
+    }
+    
+    /* Main content adjustments */
     .main-content {
         margin-left: 0;
-        padding: var(--spacing-lg);
+        padding: calc(var(--spacing-xl) + 48px) var(--spacing-lg) var(--spacing-lg);
     }
     
     .page-title {
         font-size: 2rem;
+        line-height: 1.2;
+    }
+    
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .header-stats {
+        align-self: flex-end;
     }
     
     .content-controls {
         flex-direction: column;
         align-items: stretch;
+        gap: var(--spacing-md);
     }
     
     .search-container {
         min-width: auto;
     }
     
+    .search-input {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: var(--spacing-lg);
+    }
+    
+    .filter-controls {
+        justify-content: stretch;
+    }
+    
+    .filter-select {
+        flex: 1;
+        padding: var(--spacing-lg);
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Poems grid mobile */
     .poems-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-lg);
@@ -592,23 +738,64 @@ body {
     
     .poem-card {
         padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-sm);
     }
     
+    .poem-title {
+        font-size: 1.375rem;
+        line-height: 1.3;
+    }
+    
+    .poem-content {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+    
+    .poem-expand-hint {
+        padding: var(--spacing-md);
+        font-size: 0.9rem;
+    }
+    
+    /* Scroll button mobile */
     .scroll-top-btn {
         bottom: var(--spacing-lg);
         right: var(--spacing-lg);
         width: 48px;
         height: 48px;
     }
+    
+    .scroll-icon {
+        font-size: 1.125rem;
+    }
 }
 
 @media (max-width: 480px) {
+    .mobile-menu-toggle {
+        top: var(--spacing-md);
+        left: var(--spacing-md);
+        width: 44px;
+        height: 44px;
+    }
+    
     .main-content {
-        padding: var(--spacing-md);
+        padding: calc(var(--spacing-lg) + 44px) var(--spacing-md) var(--spacing-md);
     }
     
     .page-title {
         font-size: 1.75rem;
+    }
+    
+    .content-header {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .search-input, .filter-select {
+        padding: var(--spacing-md);
+    }
+    
+    .poem-card {
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius);
     }
     
     .poem-title {
@@ -616,7 +803,62 @@ body {
     }
     
     .poem-content {
-        font-size: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .stat-badge {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    .stat-number {
+        font-size: 1.25rem;
+    }
+    
+    .scroll-top-btn {
+        bottom: var(--spacing-md);
+        right: var(--spacing-md);
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Touch improvements */
+@media (hover: none) and (pointer: coarse) {
+    .nav-item {
+        padding: var(--spacing-lg);
+        min-height: 48px;
+    }
+    
+    .poem-card {
+        transition: none;
+    }
+    
+    .poem-card:active {
+        transform: scale(0.98);
+    }
+    
+    .poem-expand-hint {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Landscape phone orientation */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        width: 280px;
+    }
+    
+    .main-content {
+        padding: calc(var(--spacing-md) + 44px) var(--spacing-md) var(--spacing-md);
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+    
+    .content-header {
+        margin-bottom: var(--spacing-md);
     }
 }
 

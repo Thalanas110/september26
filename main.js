@@ -82,17 +82,166 @@ class PoetrySanctuary {
         this.expandedCards = new Set();
         this.currentSort = 'original';
         this.isDarkMode = localStorage.getItem('theme') === 'dark';
+        this.isMobileMenuOpen = false;
         
         this.init();
     }
 
     init() {
         this.bindEvents();
+        this.setupMobileMenu();
         this.setTheme(this.isDarkMode);
         this.renderPoems();
         this.updatePoemCount();
         this.setupScrollToTop();
         this.animateOnLoad();
+    }
+
+    setupMobileMenu() {
+        try {
+            console.log('Setting up mobile menu...');
+            
+            this.mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            this.sidebar = document.getElementById('sidebar');
+            this.sidebarOverlay = document.getElementById('sidebarOverlay');
+            this.mobileCloseBtn = document.getElementById('mobileCloseBtn');
+
+            console.log('Mobile menu elements:', {
+                toggle: !!this.mobileMenuToggle,
+                sidebar: !!this.sidebar,
+                overlay: !!this.sidebarOverlay,
+                closeBtn: !!this.mobileCloseBtn
+            });
+
+            if (!this.mobileMenuToggle || !this.sidebar || !this.sidebarOverlay || !this.mobileCloseBtn) {
+                console.error('Mobile menu elements not found:', {
+                    mobileMenuToggle: this.mobileMenuToggle,
+                    sidebar: this.sidebar,
+                    sidebarOverlay: this.sidebarOverlay,
+                    mobileCloseBtn: this.mobileCloseBtn
+                });
+                return;
+            }
+
+            // Bind mobile menu events with proper context
+            this.mobileMenuToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Mobile menu toggle clicked');
+                this.toggleMobileMenu();
+            });
+            
+            this.sidebarOverlay.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Sidebar overlay clicked');
+                this.closeMobileMenu();
+            });
+            
+            this.mobileCloseBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Mobile close button clicked');
+                this.closeMobileMenu();
+            });
+
+            // Close menu when clicking nav items on mobile
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    if (window.innerWidth <= 768 && this.isMobileMenuOpen) {
+                        console.log('Nav item clicked, closing mobile menu');
+                        this.closeMobileMenu();
+                    }
+                });
+            });
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768 && this.isMobileMenuOpen) {
+                    console.log('Window resized, closing mobile menu');
+                    this.closeMobileMenu();
+                }
+            });
+
+            console.log('Mobile menu setup complete');
+
+        } catch (error) {
+            console.error('Error setting up mobile menu:', error);
+        }
+    }
+
+    toggleMobileMenu() {
+        try {
+            console.log('Toggle mobile menu called, current state:', this.isMobileMenuOpen);
+            if (this.isMobileMenuOpen) {
+                this.closeMobileMenu();
+            } else {
+                this.openMobileMenu();
+            }
+        } catch (error) {
+            console.error('Error toggling mobile menu:', error);
+        }
+    }
+
+    openMobileMenu() {
+        try {
+            console.log('Opening mobile menu...');
+            
+            if (!this.sidebar || !this.sidebarOverlay || !this.mobileMenuToggle) {
+                console.error('Cannot open mobile menu: elements not found');
+                return;
+            }
+
+            // Force the classes to be added
+            this.sidebar.classList.add('open');
+            this.sidebarOverlay.classList.add('active');
+            this.mobileMenuToggle.classList.add('active');
+            
+            // Force display styles directly
+            this.sidebarOverlay.style.display = 'block';
+            this.sidebarOverlay.style.opacity = '1';
+            this.sidebar.style.transform = 'translateX(0)';
+            
+            document.body.style.overflow = 'hidden';
+            this.isMobileMenuOpen = true;
+            
+            console.log('Mobile menu opened successfully');
+            console.log('Sidebar classes:', this.sidebar.className);
+            console.log('Sidebar style transform:', this.sidebar.style.transform);
+            console.log('Overlay classes:', this.sidebarOverlay.className);
+            console.log('Overlay style display:', this.sidebarOverlay.style.display);
+            
+        } catch (error) {
+            console.error('Error opening mobile menu:', error);
+        }
+    }
+
+    closeMobileMenu() {
+        try {
+            console.log('Closing mobile menu...');
+            
+            if (!this.sidebar || !this.sidebarOverlay || !this.mobileMenuToggle) {
+                console.error('Cannot close mobile menu: elements not found');
+                return;
+            }
+
+            // Force the classes to be removed
+            this.sidebar.classList.remove('open');
+            this.sidebarOverlay.classList.remove('active');
+            this.mobileMenuToggle.classList.remove('active');
+            
+            // Force display styles directly
+            setTimeout(() => {
+                this.sidebarOverlay.style.display = 'none';
+            }, 250); // Wait for transition
+            this.sidebarOverlay.style.opacity = '0';
+            this.sidebar.style.transform = 'translateX(-100%)';
+            
+            document.body.style.overflow = '';
+            this.isMobileMenuOpen = false;
+            
+            console.log('Mobile menu closed successfully');
+            
+        } catch (error) {
+            console.error('Error closing mobile menu:', error);
+        }
     }
 
     bindEvents() {
@@ -129,6 +278,7 @@ class PoetrySanctuary {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.collapseAllCards();
+                this.closeMobileMenu();
             }
             if (e.key === '/' && !e.target.matches('input, textarea')) {
                 e.preventDefault();
@@ -446,6 +596,8 @@ class PoetrySanctuary {
         const isMobile = window.innerWidth <= 768;
         if (isMobile) {
             this.collapseAllCards();
+        } else {
+            this.closeMobileMenu();
         }
     }
 
@@ -490,3 +642,13 @@ document.addEventListener('keydown', (e) => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = PoetrySanctuary;
 }
+
+// Global error handler
+window.addEventListener('error', (event) => {
+    console.error('Global error caught:', event.error);
+});
+
+// Handle unhandled promise rejections
+window.addEventListener('unhandledrejection', (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+});
