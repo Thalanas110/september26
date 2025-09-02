@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Poetry Sanctuary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-light">
+    <!-- Background with the provided image -->
+    <div class="app-background"></div>
+    
+    <!-- Main App Container -->
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">📖</div>
+                    <h1 class="logo-title">Poetry<br>Sanctuary</h1>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-item active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">Collection</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">🔍</span>
+                        <span class="nav-text">Search</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">❤️</span>
+                        <span class="nav-text">Favorites</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-item theme-toggle" id="themeToggle">
+                        <span class="nav-icon">🌙</span>
+                        <span class="nav-text">Dark Mode</span>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div class="header-top">
+                    <h2 class="page-title">Poetry Collection</h2>
+                    <div class="header-stats">
+                        <span class="stat-badge">
+                            <span class="stat-number" id="poemCount">12</span>
+                            <span class="stat-label">Poems</span>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Search and Controls -->
+                <div class="content-controls">
+                    <div class="search-container">
+                        <div class="search-input-wrapper">
+                            <input 
+                                type="text" 
+                                id="searchInput" 
+                                class="search-input" 
+                                placeholder="Search by title, author, or content..."
+                            >
+                            <span class="search-icon">🔍</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-controls">
+                        <select id="sortSelect" class="filter-select">
+                            <option value="original">Original Order</option>
+                            <option value="title">By Title</option>
+                            <option value="author">By Author</option>
+                        </select>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Poems Grid -->
+            <section class="poems-section">
+                <div class="poems-grid" id="poemsGrid">
+                    <!-- Poem cards will be dynamically inserted here -->
+                </div>
+                
+                <!-- No Results Message -->
+                <div class="no-results" id="noResults" style="display: none;">
+                    <div class="no-results-icon">📚</div>
+                    <h3 class="no-results-title">No poems found</h3>
+                    <p class="no-results-text">Try adjusting your search terms or browse all poems.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top-btn" id="scrollTop" aria-label="Scroll to top">
+        <span class="scroll-icon">↑</span>
+    </button>
+
+    <script src="main.js"></script>
+</body>
+</html>
